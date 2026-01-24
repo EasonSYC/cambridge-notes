@@ -4,3 +4,12 @@
 [submodule "ia-dpmms-numbers-and-sets-mt-2025"]
 	path = ia-dpmms-numbers-and-sets-mt-2025
 	url = https://github.com/EasonSYC/ia-dpmms-numbers-and-sets-mt-2025.git
+[submodule "ia-dpmms-probability-lt-2026"]
+	path = ia-dpmms-probability-lt-2026
+	url = https://github.com/EasonSYC/ia-dpmms-probability-lt-2026.git
+[submodule "ia-dpmms-analysis-i-lt-2026"]
+	path = ia-dpmms-analysis-i-lt-2026
+	url = https://github.com/EasonSYC/ia-dpmms-analysis-i-lt-2026
+[submodule "ib-dpmms-groups-rings-and-modules-lt-2026"]
+	path = ib-dpmms-groups-rings-and-modules-lt-2026
+	url = https://github.com/EasonSYC/ib-dpmms-groups-rings-and-modules-lt-2026

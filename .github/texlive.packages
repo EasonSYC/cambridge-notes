@@ -3,3 +3,4 @@ latexmk
 pgfplots
 lastpage
 aliascnt
+pdflscape

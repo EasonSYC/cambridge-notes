@@ -5,14 +5,14 @@ latexmk
 pdfpages
 geometry
 
-# graphicx
-# pgfplots
+graphicx
+pgfplots
 
-# fancyhdr
-# lastpage
-# aliascnt
-# pdflscape
-# enumitem
+fancyhdr
+lastpage
+aliascnt
+pdflscape
+enumitem
 
 # amsfonts
 # amsmath
@@ -31,7 +31,7 @@ geometry
 # fontawesome5
 # textcomp
 
-# hyperref
-# currfile
+hyperref
+currfile
 
 # thmbox

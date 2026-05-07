@@ -22,8 +22,13 @@ jobs:
 
       - name: Compile Course Files
         run: |
-          mkdir webpage/output
+          mkdir webpage
+          cd webpage
+          mkdir output
+          cd ..
+
           echo "::group::Compiling Courses"
+
           while read course; do
             cd $course
             echo "Compiling $course"
@@ -31,6 +36,7 @@ jobs:
             cp main.pdf "${{ github.workspace }}/webpage/output/$course.pdf"
             cd ${{ github.workspace }}
           done < ${{ github.workspace }}/.github/course.list
+          
           echo "::endgroup::"
 
       - name: Index Compiled Files

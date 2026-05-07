@@ -1,0 +1,62 @@
+name: LaTeX Compile All and Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build PDFs
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - run: echo "::group::Installing TeX Live"
+
+      - name: Install TeX Live
+        uses: paolobrasolin/setup-texlive-action@v1
+        with:
+          packages-path: ${{ github.workspace }}/.github/texlive.packages
+
+      - run: echo "::endgroup::"
+
+      - name: Compile Course Files
+        run: |
+          mkdir webpage/output
+          echo "::group::Compiling Courses"
+          while read course; do
+            cd $course
+            echo "Compiling $course"
+            latexmk -pdflatex -interaction=nonstopmode -file-line-error main.tex
+            cp main.pdf "${{ github.workspace }}/webpage/output/$course.pdf"
+            cd ${{ github.workspace }}
+          done < ${{ github.workspace }}/.github/course.list
+          echo "::endgroup::"
+
+      - name: Index Compiled Files
+        run: |
+          echo "Generating index.html"
+          cd webpage
+          tree output -H '.' -T "Tripos Notes" -o "index.html"
+
+      - name: Upload Static Files as Artifact
+        id: upload-webpage
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: webpage/
+
+  deploy-pages:
+    name: Deploy GitHub Pages
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-page.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy-page
+        uses: actions/deploy-pages@v4

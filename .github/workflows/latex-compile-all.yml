@@ -17,9 +17,9 @@ jobs:
       - run: echo "::group::Installing TeX Live"
 
       - name: Install TeX Live
-        uses: paolobrasolin/setup-texlive-action@v1
+        uses: zauguin/install-texlive@v4
         with:
-          packages-path: ${{ github.workspace }}/.github/texlive.packages
+          package_file: ${{ github.workspace }}/.github/texlive.packages
 
       - run: echo "::endgroup::"
 

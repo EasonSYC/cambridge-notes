@@ -5,8 +5,8 @@ latexmk
 pdfpages
 geometry
 
-graphicx
-pgfplots
+# graphicx
+# pgfplots
 
 # fancyhdr
 # lastpage
@@ -31,7 +31,7 @@ amsthm
 # fontawesome5
 # textcomp
 
-hyperref
-currfile
+# hyperref
+# currfile
 
 # thmbox

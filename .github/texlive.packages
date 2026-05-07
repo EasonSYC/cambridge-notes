@@ -8,16 +8,16 @@ geometry
 graphicx
 pgfplots
 
-fancyhdr
-lastpage
-aliascnt
-pdflscape
-enumitem
+# fancyhdr
+# lastpage
+# aliascnt
+# pdflscape
+# enumitem
 
-# amsfonts
-# amsmath
-# amssymb
-# amsthm
+amsfonts
+amsmath
+amssymb
+amsthm
 # mathtools
 # centernot
 # stmaryrd

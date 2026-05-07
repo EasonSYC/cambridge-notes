@@ -1,37 +1,37 @@
 scheme-basic
 
+latexmk
+
 pdfpages
 geometry
 
-graphicx
-pgfplots
+# graphicx
+# pgfplots
 
-fancyhdr
-lastpage
-aliascnt
-pdflscape
-enumitem
+# fancyhdr
+# lastpage
+# aliascnt
+# pdflscape
+# enumitem
 
-amsfonts
-amsmath
-amssymb
-amsthm
-mathtools
-centernot
-stmaryrd
-interval
-permute
-makecell
+# amsfonts
+# amsmath
+# amssymb
+# amsthm
+# mathtools
+# centernot
+# stmaryrd
+# interval
+# permute
+# makecell
 
+# tikz-cd
 
-tikz-cd
+# xcolor
+# fontawesome5
+# textcomp
 
-xcolor
-fontawesome5
-textcomp
+# hyperref
+# currfile
 
-
-hyperref
-currfile
-
-thmbox
+# thmbox

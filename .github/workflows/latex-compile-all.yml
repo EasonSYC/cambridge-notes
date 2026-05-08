@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
           token: ${{ secrets.TRIPOS_REPO }}
@@ -27,8 +27,6 @@ jobs:
           mkdir output
           cd ..
 
-          echo "::group::Compiling Courses"
-
           while read course; do
             cd $course
 
@@ -40,17 +38,15 @@ jobs:
             cd ${{ github.workspace }}
           done < ${{ github.workspace }}/.github/course.list
 
-          echo "::endgroup::"
-
       - name: Index Compiled Files
         run: |
           echo "Generating index.html"
           cd webpage
-          tree output -H '../' -T "Tripos Notes" -o "index.html"
+          tree output -H 'output/' -T "Tripos Notes" -o "index.html"
 
       - name: Upload Static Files as Artifact
         id: upload-webpage
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: webpage/
 
@@ -67,4 +63,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deploy-page
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

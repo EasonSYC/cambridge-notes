@@ -15,10 +15,8 @@ jobs:
           submodules: recursive
           token: ${{ secrets.TRIPOS_REPO }}
 
-      - name: Install TeX Live
-        uses: zauguin/install-texlive@v4
-        with:
-          package_file: ${{ github.workspace }}/.github/texlive.packages
+      - name: Setup TeX Live
+        uses: EasonSYC/latex-style-setup@main
 
       - name: Compile Course Files
         run: |

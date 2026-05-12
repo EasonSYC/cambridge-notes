@@ -9,13 +9,14 @@ on:
 jobs:
   update-submodules:
     runs-on: ubuntu-latest
+    name: Update Submodules
 
     permissions:
       contents: write
  
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
  
@@ -24,7 +25,12 @@ jobs:
  
       - name: Check for Changes
         id: changes
-        run: ggit diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+        run: |
+          if git diff HEAD --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
  
       - name: Commit and Push
         if: steps.changes.outputs.changed == 'true'

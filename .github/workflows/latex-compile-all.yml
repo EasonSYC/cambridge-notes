@@ -1,6 +1,11 @@
 name: LaTeX Compile All and Deploy
 
 on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
   workflow_dispatch:
 
 jobs:
@@ -20,13 +25,9 @@ jobs:
 
       - name: Compile Course Files
         run: |
-          mkdir webpage
-          cd webpage
-          mkdir output
-          cd ..
+          mkdir -p webpage/output
 
           while read course; do
-
             cd $course
 
             echo "::group::Compiling $course"
@@ -35,12 +36,8 @@ jobs:
             commit_date=$(git log -1 --format=%cd --date=format:%Y%m%d)
 
             echo "" >> version.tex
-
             echo "\renewcommand{\DATE}{$commit_date}" >> version.tex
-
             echo "\renewcommand{\COMMITSHA}{$commit_sha}" >> version.tex
-
-            cat version.tex
 
             latexmk -pdflatex -interaction=nonstopmode -file-line-error main.tex
             cp main.pdf "${{ github.workspace }}/webpage/output/$course-$commit_date-$commit_sha.pdf"
@@ -48,7 +45,7 @@ jobs:
             echo "::endgroup::"
 
             cd ${{ github.workspace }}
-          done < ${{ github.workspace }}/.github/course.list
+          done <<< "$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')"
 
       - name: Upload PDF files
         id: upload-pdf

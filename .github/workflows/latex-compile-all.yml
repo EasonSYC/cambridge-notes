@@ -36,7 +36,7 @@ jobs:
 
             echo "" >> version.tex
 
-            echo "\renewcommand{\DATE}{$commmit_date}" >> version.tex
+            echo "\renewcommand{\DATE}{$commit_date}" >> version.tex
 
             echo "\renewcommand{\COMMITSHA}{$commit_sha}" >> version.tex
 

@@ -54,6 +54,7 @@ jobs:
         id: upload-pdf
         uses: actions/upload-artifact@v7
         with:
+          name: compiled-pdfs
           path: webpage/output
       
       - name: Index Compiled Files
@@ -66,7 +67,6 @@ jobs:
         id: upload-webpage
         uses: actions/upload-pages-artifact@v5
         with:
-          name: compiled-pdfs
           path: webpage/
 
   deploy-pages:

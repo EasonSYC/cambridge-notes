@@ -40,6 +40,8 @@ jobs:
 
             echo "\renewcommand{\COMMITSHA}{$commit_sha}" >> version.tex
 
+            cat version.tex
+
             latexmk -pdflatex -interaction=nonstopmode -file-line-error main.tex
             cp main.pdf "${{ github.workspace }}/webpage/output/$course-$commit_date-$commit_sha.pdf"
 
@@ -48,6 +50,12 @@ jobs:
             cd ${{ github.workspace }}
           done < ${{ github.workspace }}/.github/course.list
 
+      - name: Upload PDF files
+        id: upload-pdf
+        uses: actions/upload-artifact@v7
+        with:
+          path: webpage/output
+      
       - name: Index Compiled Files
         run: |
           echo "Generating index.html"

@@ -26,11 +26,23 @@ jobs:
           cd ..
 
           while read course; do
+
             cd $course
 
             echo "::group::Compiling $course"
+            
+            commit_sha=$(git rev-parse --short HEAD)
+            commit_date=$(git log -1 --format=%cd --date=format:%Y%m%d)
+
+            echo "" >> version.tex
+
+            echo "\renewcommand{\DATE}{$commmit_date}" >> version.tex
+
+            echo "\renewcommand{\COMMITSHA}{$commit_sha}" >> version.tex
+
             latexmk -pdflatex -interaction=nonstopmode -file-line-error main.tex
-            cp main.pdf "${{ github.workspace }}/webpage/output/$course.pdf"
+            cp main.pdf "${{ github.workspace }}/webpage/output/$course-$commit_date-$commit_sha.pdf"
+
             echo "::endgroup::"
 
             cd ${{ github.workspace }}

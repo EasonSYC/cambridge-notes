@@ -39,7 +39,7 @@ jobs:
             echo "\renewcommand{\COMMITSHA}{$commit_sha}" >> version.tex
 
             latexmk -pdflatex -interaction=nonstopmode -file-line-error main.tex
-            cp main.pdf "${{ github.workspace }}/webpage/output/$course-$commit_date-$commit_sha.pdf"
+            cp main.pdf "${{ github.workspace }}/webpage/output/$course.pdf"
 
             echo "::endgroup::"
 

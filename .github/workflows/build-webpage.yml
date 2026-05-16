@@ -23,6 +23,6 @@ jobs:
           tree output -H output/ -T "Tripos Notes" -o "index.html"
 
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: webpage/

@@ -19,6 +19,7 @@ jobs:
     name: Compile PDF — ${{ matrix.course }}
     strategy:
       matrix: ${{ fromJson(inputs.matrix) }}
+      fail-fast: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

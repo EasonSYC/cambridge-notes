@@ -6,16 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-matrix:
-    name: Generate Matrix
-    uses: ./.github/workflows/generate-matrix.yml
-  
   check-recent-commits:
-    needs: generate-matrix
     name: Check Recent Commits
     uses: ./.github/workflows/check-recent-commits.yml
-    with:
-      matrix: ${{ needs.generate-matrix.outputs.matrix }}
       
   ci:
     needs: check-recent-commits

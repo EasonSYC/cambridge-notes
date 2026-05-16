@@ -3,10 +3,6 @@ name: Check Recent Commits
 on:
   workflow_call:
     inputs:
-      matrix:
-        description: Course Matrix
-        required: true
-        type: string
       since-hours:
         required: false
         type: number
@@ -29,17 +25,15 @@ jobs:
           SINCE=$(date -u -d '${{ inputs.since-hours }} hours ago' +"%Y-%m-%dT%H:%M:%SZ")
           HAS_NEW_COMMITS=false
 
-          for COURSE in $(echo '${{ inputs.matrix }}' | jq -r '.course[]'); do
+          while read course; do
             COUNT=$(gh api "repos/EasonSYC/$COURSE/commits?since=$SINCE&per_page=1" --jq 'length')
-
-            echo $COUNT
 
             if [ "$COUNT" -gt 0 ]; then
               HAS_NEW_COMMITS=true
               break
             fi
 
-          done
+          done << .github/course.list
 
           echo "has-new-commits=$HAS_NEW_COMMITS" >> $GITHUB_OUTPUT
         env:

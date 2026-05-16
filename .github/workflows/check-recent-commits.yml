@@ -11,12 +11,9 @@ on:
         required: false
         type: number
         default: 24
-    secrets:
-      pat:
-        required: false
     outputs:
       has-new-commits:
-        description: "Whether any course has new commits"
+        description: "Whether Any Course has New Commits"
         value: ${{ jobs.check-commits.outputs.has-new-commits }}
 
 jobs:
@@ -25,8 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has-new-commits: ${{ steps.check.outputs.has-new-commits }}
-    env:
-      GH_TOKEN: ${{ secrets.pat || secrets.GITHUB_TOKEN }}
     steps:
       - name: Check each course for recent commits
         id: check
@@ -35,13 +30,10 @@ jobs:
           HAS_NEW_COMMITS=false
 
           for COURSE in $(echo '${{ inputs.matrix }}' | jq -r '.course[]'); do
-            echo "Checking EasonSYC/$COURSE..."
             COUNT=$(gh api "repos/EasonSYC/$COURSE/commits?since=$SINCE&per_page=1" \
               --jq 'length' 2>/dev/null || echo "0")
 
             if [ "$COUNT" -gt 0 ]; then
-              echo "  ✓ $COURSE has new commits"
               HAS_NEW_COMMITS=true
-              break  # no need to check further
+              break
             else
-              echo "  – $COURSE has no new commits"

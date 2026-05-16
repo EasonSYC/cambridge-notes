@@ -33,7 +33,7 @@ jobs:
               break
             fi
 
-          done << .github/course.list
+          done < .github/course.list
 
           echo "has-new-commits=$HAS_NEW_COMMITS" >> $GITHUB_OUTPUT
         env:

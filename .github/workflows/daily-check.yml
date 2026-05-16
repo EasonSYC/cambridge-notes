@@ -1,0 +1,12 @@
+name: Weekly Update
+
+on:
+  schedule:
+    - cron: 0 9 * * *
+  workflow_dispatch:
+
+jobs:
+  generate-matrix:
+    name: Generate Matrix
+    uses: ./.github/workflows/generate-matrix.yml
+  

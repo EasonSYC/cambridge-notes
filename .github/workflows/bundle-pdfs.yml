@@ -1,0 +1,21 @@
+name: Bundle PDFs into Artifact
+
+on:
+  workflow_call:
+
+jobs:
+  bundle-pdfs:
+    name: Bundle PDFs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download All PDF Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: pdfs
+
+      - name: Upload Combined PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-pdfs
+          path: pdfs

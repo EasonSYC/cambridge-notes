@@ -1,0 +1,39 @@
+name: Compile PDFs
+
+on:
+  workflow_call:
+    inputs:
+      matrix:
+        required: true
+        type: string
+
+  workflow_dispatch:
+    inputs:
+      matrix:
+        description: 'Course Matrix'
+        required: true
+        type: string
+
+jobs:
+  compile-pdfs:
+    name: Compile PDF — ${{ matrix.course }}
+    strategy:
+      matrix: ${{ fromJson(inputs.matrix) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: EasonSYC/${{ matrix.course }}
+          path: ${{ matrix.course }}
+
+      - name: Setup TeX Live
+        uses: EasonSYC/latex-style-setup@main
+
+      - name: Compile PDF
+        id: compile-pdf
+        uses: EasonSYC/latex-compile-pdf@main
+        with:
+          working-directory: ${{ matrix.course }}
+          job-name: ${{ matrix.course }}
+          job-name-version: false

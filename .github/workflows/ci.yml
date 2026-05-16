@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  generate-matrix:
+    name: Generate Course Matrix
+    uses: ./.github/workflows/generate-matrix.yml
+  
+  compile-pdfs:
+    name: Compile PDFs
+    needs: generate-matrix
+    uses: ./.github/workflows/compile-pdfs.yml
+    with:
+      matrix: ${{ needs.generate-matrix.outputs.matrix }}
+
+  bundle-pdfs:
+    name: Bundle PDFs
+    needs: compile-pdfs
+    uses: ./.github/workflows/bundle-pdfs.yml
+
+  build-webpage:
+    name: Build Webpage
+    needs: bundle-pdfs
+    uses: ./.github/workflows/build-webpage.yml
+
+  deploy-pages:
+    name: Deploy GitHub Pages
+    needs: build-webpage
+    uses: ./.github/workflows/deploy-pages.yml

@@ -1,0 +1,28 @@
+name: Build Webpage Artifact
+
+on:
+  workflow_call:
+
+jobs:
+  build-webpage:
+    name: Build Webpage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Compiled PDFs
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-pdfs
+          path: webpage/output
+
+      - name: Install tree
+        run: sudo apt-get install -y tree
+
+      - name: Generate Index Page
+        run: |
+          cd webpage
+          tree output -H output/ -T "Tripos Notes" -o "index.html"
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: webpage/

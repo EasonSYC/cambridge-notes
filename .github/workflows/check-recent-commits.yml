@@ -27,6 +27,9 @@ jobs:
         id: check
         run: |
           SINCE=$(date -u -d '${{ inputs.since-hours }} hours ago' +"%Y-%m-%dT%H:%M:%SZ")
+
+          echo $SINCE
+
           HAS_NEW_COMMITS=false
 
           for COURSE in $(echo '${{ inputs.matrix }}' | jq -r '.course[]'); do

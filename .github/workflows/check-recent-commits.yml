@@ -49,7 +49,7 @@ jobs:
           else
             echo "has-new-commits=false" >> $GITHUB_OUTPUT
           fi
-          echo "has-new-commits=$HAS_NEW_COMMITS" >> $GITHUB_OUTPUT
+
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   

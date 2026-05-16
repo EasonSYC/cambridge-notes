@@ -10,34 +10,61 @@ on:
     outputs:
       has-new-commits:
         description: "Whether Any Course has New Commits"
-        value: ${{ jobs.check-commits.outputs.has-new-commits }}
+        value: ${{ jobs.aggregate-result.outputs.has-new-commits }}
 
 jobs:
-  check-commits:
-    name: Check Recent Commits
+  generate-matrix:
+    uses: ./.github/workflows/generate-matrix.yml
+
+  calculate-since:
+    name: Calculate Since Timestamp
     runs-on: ubuntu-latest
+    outputs:
+      since: ${{ steps.calculate.outputs.since }}
+    steps:
+      - name: Calculate Since
+        id: calculate
+        run: |
+          echo "since=$(date -u -d '${{ inputs.since-hours }} hours ago' +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_OUTPUT
+
+  check-commits:
+    name: Check Recent Commits (${{ matrix.course }})
+    needs: [generate-matrix, calculate-since]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      fail-fast: false
     outputs:
       has-new-commits: ${{ steps.check.outputs.has-new-commits }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
 
       - name: Check Courses for Recent Commits
         id: check
         run: |
-          SINCE=$(date -u -d '${{ inputs.since-hours }} hours ago' +"%Y-%m-%dT%H:%M:%SZ")
-          HAS_NEW_COMMITS=false
+          COUNT=$(gh api "repos/EasonSYC/$COURSE/commits?since=${{ needs.calculate-since.outputs.since }}&per_page=1" --jq 'length')
 
-          while read COURSE; do
-            COUNT=$(gh api "repos/EasonSYC/$COURSE/commits?since=$SINCE&per_page=1" --jq 'length')
-
-            if [ "$COUNT" -gt 0 ]; then
-              HAS_NEW_COMMITS=true
-              break
-            fi
-
-          done < .github/course.list
-
+          if [ "$COUNT" -gt 0 ]; then
+            echo "has-new-commits=true" >> $GITHUB_OUTPUT
+          else
+            echo "has-new-commits=false" >> $GITHUB_OUTPUT
+          fi
           echo "has-new-commits=$HAS_NEW_COMMITS" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  aggregate-result:
+    name: Aggregate Commit Results
+    needs: check-commits
+    runs-on: ubuntu-latest
+    outputs:
+      has-new-commits: ${{ steps.aggregate.outputs.has-new-commits }}
+    steps:
+      - name: Aggregate Results
+        id: aggregate
+        run: |
+          RESULTS='${{ toJson(needs.check-commits.outputs) }}'
+          if echo "$RESULTS" | jq -e 'to_entries | map(.value == "true") | any'; then
+            echo "has-new-commits=true" >> $GITHUB_OUTPUT
+          else
+            echo "has-new-commits=false" >> $GITHUB_OUTPUT
+          fi

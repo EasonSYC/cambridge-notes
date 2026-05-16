@@ -4,12 +4,9 @@ A repository containing all my notes at Cambridge.
 
 ## Deployments and Checks
 
-### Current Repository
-
 | Workflow Name | Status |
 | --- | --- |
 | LaTeX Build and Deploy | [![LaTeX Compile All and Deploy](https://github.com/EasonSYC/cambridge-notes/actions/workflows/latex-compile-all.yml/badge.svg)](https://github.com/EasonSYC/cambridge-notes/actions/workflows/latex-compile-all.yml) |
-| Update Submodules | [![Update Submodules](https://github.com/EasonSYC/cambridge-notes/actions/workflows/update-submodules.yml/badge.svg)](https://github.com/EasonSYC/cambridge-notes/actions/workflows/update-submodules.yml)       |
 
 ### Notes
 

@@ -1,6 +1,5 @@
 {
     "github-actions.workflows.pinned.workflows": [
-        ".github/workflows/update-submodules.yml",
         ".github/workflows/latex-compile-all.yml"
     ]
 }

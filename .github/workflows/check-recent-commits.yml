@@ -19,7 +19,10 @@ jobs:
     outputs:
       has-new-commits: ${{ steps.check.outputs.has-new-commits }}
     steps:
-      - name: Check each course for recent commits
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Check Courses for Recent Commits
         id: check
         run: |
           SINCE=$(date -u -d '${{ inputs.since-hours }} hours ago' +"%Y-%m-%dT%H:%M:%SZ")
@@ -33,7 +36,7 @@ jobs:
               break
             fi
 
-          done < ${{ github.workspace }}.github/course.list
+          done < .github/course.list
 
           echo "has-new-commits=$HAS_NEW_COMMITS" >> $GITHUB_OUTPUT
         env:

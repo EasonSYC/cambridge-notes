@@ -9,61 +9,79 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  generate-matrix:
     runs-on: ubuntu-latest
-    name: Build PDFs
+    name: Generate Course Name Matrix
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        id: checkout
+        uses: actions/checkout@v6
+
+      - id: set-matrix
+        run: |
+          courses=$(cat .github/course.list | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "matrix={\"course\":$courses}" >> $GITHUB_OUTPUT
+  
+  compile-pdfs:
+    strategy:
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+    outputs:
+      pdf-name: ${{ steps.compile-pdf.outputs.pdf-name }}
+    runs-on: ubuntu-latest
+    needs: generate-matrix
+    steps:
+      - name: Checkout
         uses: actions/checkout@v6
         with:
-          submodules: recursive
+          repository: EasonSYC/${{ matrix.value }}
 
       - name: Setup TeX Live
         uses: EasonSYC/latex-style-setup@main
 
-      - name: Compile Course Files
-        run: |
-          mkdir -p webpage/output
-
-          while read course; do
-            cd $course
-
-            echo "::group::Compiling $course"
-            
-            commit_sha=$(git rev-parse --short HEAD)
-            commit_date=$(git log -1 --format=%cd --date=format:%Y%m%d)
-
-            echo "" >> version.tex
-            echo "\renewcommand{\DATE}{$commit_date}" >> version.tex
-            echo "\renewcommand{\COMMITSHA}{$commit_sha}" >> version.tex
-
-            latexmk -pdflatex -interaction=nonstopmode -file-line-error main.tex
-            cp main.pdf "${{ github.workspace }}/webpage/output/$course.pdf"
-
-            echo "::endgroup::"
-
-            cd ${{ github.workspace }}
-          done <<< "$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')"
-
-      - name: Upload PDF files
-        id: upload-pdf
-        uses: actions/upload-artifact@v7
+      - name: Compile PDF
+        id: compile-pdf
+        uses: EasonSYC/latex-compile-pdf@main
         with:
-          name: compiled-pdfs
-          path: webpage/output
+          job-name: ${{ matrix.value }}
+          job-name-version: false
       
-      - name: Index Compiled Files
-        run: |
-          echo "Generating index.html"
-          cd webpage
-          tree output -H output/ -T "Tripos Notes" -o "index.html"
+  create-pdf-artifact:
+    runs-on: ubuntu-latest
+    needs: compile-pdfs
+    steps:
+    - name: Retrieve Artifact
+      uses: actions/download-artifact@v5
+      with:
+        path: pdfs
+    
+    - name: Upload PDF files
+      id: upload-pdf
+      uses: actions/upload-artifact@v7
+      with:
+        name: compiled-pdfs
+        path: pdfs
 
-      - name: Upload Static Files as Artifact
-        id: upload-webpage
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: webpage/
+  create-webpage-artifact:
+    runs-on: ubuntu-latest
+    needs: create-pdf-artifact
+    steps:
+    - name: Retrieve Artifact
+      uses: actions/download-artifact@v5
+      with:
+        name: compiled-pdfs
+        path: webpage/output
+    
+    - name: Index Compiled Files
+      run: |
+        cd webpage
+        tree output -H output/ -T "Tripos Notes" -o "index.html"
+
+    - name: Upload Static Files as Artifact
+      id: upload-webpage
+      uses: actions/upload-pages-artifact@v5
+      with:
+        path: webpage/
 
   deploy-pages:
     name: Deploy GitHub Pages
@@ -74,7 +92,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy-page.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: create-webpage-artifact
     steps:
       - name: Deploy to GitHub Pages
         id: deploy-page

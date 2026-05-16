@@ -1,5 +1,8 @@
 {
     "github-actions.workflows.pinned.workflows": [
-        ".github/workflows/latex-compile-all.yml"
+        ".github/workflows/latex-compile-all.yml",
+        ".github/workflows/weekly-update.yml",
+        ".github/workflows/daily-check.yml",
+        ".github/workflows/ci.yml"
     ]
 }

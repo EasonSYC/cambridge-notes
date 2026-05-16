@@ -12,6 +12,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           merge-multiple: true
+          skip-decompress: true
           path: pdfs
 
       - name: Upload Combined PDF Artifact

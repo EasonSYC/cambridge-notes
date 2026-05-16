@@ -34,4 +34,7 @@ jobs:
   deploy-pages:
     name: Deploy GitHub Pages
     needs: build-webpage
+    permissions:
+      pages: write
+      id-token: write
     uses: ./.github/workflows/deploy-pages.yml

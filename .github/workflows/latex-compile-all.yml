@@ -24,6 +24,7 @@ jobs:
           echo "matrix={\"course\":$courses}" >> $GITHUB_OUTPUT
   
   compile-pdfs:
+    name: Compile PDFs
     strategy:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     outputs:
@@ -34,7 +35,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          repository: EasonSYC/${{ matrix.value }}
+          repository: EasonSYC/${{ matrix.course }}
 
       - name: Setup TeX Live
         uses: EasonSYC/latex-style-setup@main
@@ -43,10 +44,11 @@ jobs:
         id: compile-pdf
         uses: EasonSYC/latex-compile-pdf@main
         with:
-          job-name: ${{ matrix.value }}
+          job-name: ${{ matrix.course }}
           job-name-version: false
       
   create-pdf-artifact:
+    name: Create Combined PDF Artifact
     runs-on: ubuntu-latest
     needs: compile-pdfs
     steps:
@@ -63,6 +65,7 @@ jobs:
         path: pdfs
 
   create-webpage-artifact:
+    name: Create Webpage Artifact
     runs-on: ubuntu-latest
     needs: create-pdf-artifact
     steps:

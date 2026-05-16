@@ -36,4 +36,8 @@ jobs:
             if [ "$COUNT" -gt 0 ]; then
               HAS_NEW_COMMITS=true
               break
-            else
+            fi
+
+          done
+
+          echo "has-new-commits=$HAS_NEW_COMMITS" >> $GITHUB_OUTPUT

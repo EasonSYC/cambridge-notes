@@ -8,4 +8,7 @@ on:
 jobs:
   ci:
     name: CI
+    permissions:
+      pages: write
+      id-token: write
     uses: ./.github/workflows/ci.yml

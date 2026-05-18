@@ -20,6 +20,8 @@ jobs:
     name: Bundle PDFs
     needs: compile-pdfs
     uses: ./.github/workflows/bundle-pdfs.yml
+    with:
+      artifact-ids: ${{ needs.compile-pdfs.outputs.artifact-ids }}
 
   build-webpage:
     name: Build Webpage

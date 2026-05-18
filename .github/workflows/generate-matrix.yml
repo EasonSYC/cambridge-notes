@@ -6,7 +6,6 @@ on:
       matrix:
         description: "Course Matrix JSON"
         value: ${{ jobs.generate-matrix.outputs.matrix }}
-  workflow_dispatch:
 
 jobs:
   generate-matrix:

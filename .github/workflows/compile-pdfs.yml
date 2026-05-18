@@ -4,15 +4,13 @@ on:
   workflow_call:
     inputs:
       matrix:
-        required: true
-        type: string
-
-  workflow_dispatch:
-    inputs:
-      matrix:
         description: 'Course Matrix'
         required: true
         type: string
+    outputs:
+      artifact-ids:
+        description: 'Artifact IDs'
+        value: ${{ jobs.collect-ids.outputs.artifact-ids-list }}
 
 jobs:
   compile-pdfs:
@@ -21,6 +19,8 @@ jobs:
       matrix: ${{ fromJson(inputs.matrix) }}
       fail-fast: false
     runs-on: ubuntu-latest
+    outputs:
+      artifact-ids: ${{ steps.compile-pdf.outputs.artifact-ids }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -38,3 +38,10 @@ jobs:
           working-directory: ${{ matrix.course }}
           job-name: ${{ matrix.course }}
           job-name-version: false
+
+  collect-ids:
+    name: Collect Artifact IDs
+    needs: compile-pdfs
+    uses: ./.github/workflows/collect-artifact-ids.yml
+    with:
+      artifact-ids-json: ${{ toJSON(needs.compile-pdfs.outputs) }}

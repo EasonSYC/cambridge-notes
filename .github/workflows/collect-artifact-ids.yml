@@ -1,0 +1,26 @@
+name: Collect Artifact IDs
+
+on:
+  workflow_call:
+    inputs:
+      artifact-ids-json:
+        description: 'Matrix job outputs as JSON object (toJSON of needs outputs)'
+        required: true
+        type: string
+    outputs:
+      artifact-ids-list:
+        description: 'Artifact IDs (comma-separated)'
+        value: ${{ jobs.collect-ids.outputs.artifact-ids }}
+
+jobs:
+  collect-ids:
+    name: Collect Artifact IDs
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-ids: ${{ steps.collect.outputs.artifact-ids }}
+    steps:
+      - name: Collect Artifact IDs
+        id: collect
+        run: |
+          IDS=$(echo '${{ inputs.artifact-ids-json }}' | jq -r '[to_entries[].value] | join(",")')
+          echo "artifact-ids=$IDS" >> "$GITHUB_OUTPUT"

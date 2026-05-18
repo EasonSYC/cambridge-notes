@@ -2,6 +2,11 @@ name: Bundle PDFs into Artifact
 
 on:
   workflow_call:
+    inputs:
+      artifact-ids:
+        description: 'Artifact IDs'
+        required: true
+        type: string
 
 jobs:
   bundle-pdfs:
@@ -14,6 +19,7 @@ jobs:
           merge-multiple: true
           skip-decompress: true
           path: pdfs
+          artifact-ids: ${{ inputs.artifact-ids }}
 
       - name: Upload Combined PDF Artifact
         uses: actions/upload-artifact@v7

@@ -2,24 +2,25 @@ name: Bundle PDFs into Artifact
 
 on:
   workflow_call:
-    inputs:
-      artifact-ids:
-        description: 'Artifact IDs'
-        required: true
-        type: string
 
 jobs:
   bundle-pdfs:
     name: Bundle PDFs
     runs-on: ubuntu-latest
     steps:
-      - name: Download All PDF Artifacts
+      - name: Download PDF Artifacts
         uses: actions/download-artifact@v8
         with:
           merge-multiple: true
           skip-decompress: true
           path: pdfs
-          artifact-ids: ${{ inputs.artifact-ids }}
+          pattern: '*-notes.pdf'
+
+      - name: Rename PDFs
+        run: |
+          for f in pdfs/*-notes.pdf; do
+            mv "$f" "${f%-notes.pdf}.pdf"
+          done
 
       - name: Upload Combined PDF Artifact
         uses: actions/upload-artifact@v7

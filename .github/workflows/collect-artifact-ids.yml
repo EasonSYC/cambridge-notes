@@ -23,4 +23,7 @@ jobs:
         id: collect
         run: |
           IDS=$(echo '${{ inputs.artifact-ids-json }}' | jq -r '[to_entries[].value] | join(",")')
+          echo ${{ inputs.artifact-ids-json }}
+          echo '${{ inputs.artifact-ids-json }}' | jq -r '[to_entries[].value]
+          echo $IDS
           echo "artifact-ids=$IDS" >> "$GITHUB_OUTPUT"

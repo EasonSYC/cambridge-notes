@@ -6,7 +6,7 @@ on:
       since-hours:
         required: false
         type: number
-        default: 24
+        default: 48
     outputs:
       has-new-commits:
         description: "Whether Any Course has New Commits"

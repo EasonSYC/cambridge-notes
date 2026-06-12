@@ -7,7 +7,7 @@ A repository containing all my notes at Cambridge.
 | Workflow Name | Status |
 | --- | --- |
 | Daily Check | [![Daily Check](https://github.com/EasonSYC/cambridge-notes/actions/workflows/daily-check.yml/badge.svg)](https://github.com/EasonSYC/cambridge-notes/actions/workflows/daily-check.yml) |
-| Weekly Update | [![Weekly Update](https://github.com/EasonSYC/cambridge-notes/actions/workflows/weekly-update.yml/badge.svg)](https://github.com/EasonSYC/cambridge-notes/actions/workflows/weekly-update.yml) |
+| Monthly Update | [![Monthly Update](https://github.com/EasonSYC/cambridge-notes/actions/workflows/monthly-update.yml/badge.svg)](https://github.com/EasonSYC/cambridge-notes/actions/workflows/monthly-update.yml) |
 | CI | [![CI](https://github.com/EasonSYC/cambridge-notes/actions/workflows/ci.yml/badge.svg)](https://github.com/EasonSYC/cambridge-notes/actions/workflows/ci.yml) |
 
 ### Notes

@@ -29,5 +29,5 @@ jobs:
         uses: EasonSYC/latex-compile-pdf@main
         with:
           working-directory: ${{ matrix.course }}
-          job-name: ${{ matrix.course }}-notes
+          job-name: ${{ matrix.course }}
           job-name-version: false

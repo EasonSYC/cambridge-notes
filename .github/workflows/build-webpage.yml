@@ -12,7 +12,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: compiled-pdfs
-          path: webpage/output
+          path: webpage/notes
 
       - name: Install tree
         run: sudo apt-get install -y tree
@@ -20,7 +20,7 @@ jobs:
       - name: Generate Index Page
         run: |
           cd webpage
-          tree output -H output/ -T "Tripos Notes" -o "index.html"
+          tree notes -H notes/ -T "Tripos Notes" -o "index.html"
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v5

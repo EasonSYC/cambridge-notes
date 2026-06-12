@@ -8,19 +8,17 @@ jobs:
     name: Build Webpage
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - name: Download Compiled PDFs
         uses: actions/download-artifact@v8
         with:
           name: compiled-pdfs
           path: webpage/pdfs
 
-      - name: Install tree
-        run: sudo apt-get install -y tree
-
       - name: Generate Index Page
-        run: |
-          cd webpage
-          tree pdfs -H pdfs/ -T "Tripos Notes" -o "index.html"
+        run: mv index.html webpage
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v5

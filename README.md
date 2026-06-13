@@ -40,10 +40,10 @@ A repository containing all my notes at Cambridge.
 | Name | Repository | Status |
 | --- | --- | --- |
 | Groups, Rings and Modules (LT 2026) | [ib-dpmms-groups-rings-and-modules-lt-2026](https://github.com/EasonSYC/ib-dpmms-groups-rings-and-modules-lt-2026/) | [![LaTeX Compile PDF](https://github.com/EasonSYC/ib-dpmms-groups-rings-and-modules-lt-2026/actions/workflows/compile-pdf.yml/badge.svg)](https://github.com/EasonSYC/ib-dpmms-groups-rings-and-modules-lt-2026/actions/workflows/compile-pdf.yml) |
+| Variational Principles | [ib-damtp-variational-principles-et-2026](https://github.com/EasonSYC/ib-damtp-variational-principles-et-2026/) | [![LaTeX Compile PDF](https://github.com/EasonSYC/ib-damtp-variational-principles-et-2026/actions/workflows/compile-pdf.yml/badge.svg)](https://github.com/EasonSYC/ib-damtp-variational-principles-et-2026/actions/workflows/compile-pdf.yml) |
 
 ##### In Progress
 
 | Name | Repository | Status |
 | --- | --- | --- |
 | Optimisation | [ib-dpmms-optimisation-et-2026](https://github.com/EasonSYC/ib-dpmms-optimisation-et-2026/) | [![LaTeX Compile PDF](https://github.com/EasonSYC/ib-dpmms-optimisation-et-2026/actions/workflows/compile-pdf.yml/badge.svg)](https://github.com/EasonSYC/ib-dpmms-optimisation-et-2026/actions/workflows/compile-pdf.yml) |
-| Variational Principles | [ib-damtp-variational-principles-et-2026](https://github.com/EasonSYC/ib-damtp-variational-principles-et-2026/) | [![LaTeX Compile PDF](https://github.com/EasonSYC/ib-damtp-variational-principles-et-2026/actions/workflows/compile-pdf.yml/badge.svg)](https://github.com/EasonSYC/ib-damtp-variational-principles-et-2026/actions/workflows/compile-pdf.yml) |

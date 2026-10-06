@@ -1,14 +1,16 @@
-name: Daily Check
+name: Weekly Check
 
 on:
   schedule:
-    - cron: 0 0 * * *
+    - cron: 0 0 * * 0
   workflow_dispatch:
 
 jobs:
   check-recent-commits:
     name: Check Recent Commits
     uses: ./.github/workflows/check-recent-commits.yml
+    with:
+      since-hours: 168
       
   ci:
     needs: check-recent-commits

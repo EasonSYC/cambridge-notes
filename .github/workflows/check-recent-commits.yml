@@ -20,7 +20,7 @@ jobs:
       has-new-commits: ${{ steps.check.outputs.has-new-commits }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Check Courses for Recent Commits
         id: check

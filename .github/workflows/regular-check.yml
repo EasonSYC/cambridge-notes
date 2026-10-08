@@ -1,8 +1,9 @@
-name: Weekly Check
+name: Regular Check
 
 on:
   schedule:
-    - cron: 0 0 * * 0
+    - cron: '0 15 * * *'
+    - timezone: "Europe/London"
   workflow_dispatch:
 
 jobs:

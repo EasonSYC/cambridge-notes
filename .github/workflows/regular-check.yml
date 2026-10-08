@@ -3,7 +3,7 @@ name: Regular Check
 on:
   schedule:
     - cron: '0 15 * * *'
-    - timezone: "Europe/London"
+      timezone: "Europe/London"
   workflow_dispatch:
 
 jobs:

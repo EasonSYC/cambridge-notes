@@ -28,7 +28,9 @@ jobs:
           SINCE=$(date -u -d '${{ inputs.since-hours }} hours ago' +"%Y-%m-%dT%H:%M:%SZ")
           HAS_NEW_COMMITS=false
 
-          while read COURSE; do
+          while IFS= read -r COURSE; do
+            [[ -z "${COURSE//[[:space:]]/}" ]] && continue
+
             COUNT=$(gh api "repos/EasonSYC/$COURSE/commits?since=$SINCE&per_page=1" --jq 'length')
 
             if [ "$COUNT" -gt 0 ]; then
@@ -36,7 +38,7 @@ jobs:
               break
             fi
 
-          done < .github/course.list
+          done < <(grep -v '^[[:space:]]*$' .github/course.list)
 
           echo "has-new-commits=$HAS_NEW_COMMITS" >> $GITHUB_OUTPUT
         env:
